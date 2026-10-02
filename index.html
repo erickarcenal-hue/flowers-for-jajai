@@ -272,7 +272,7 @@
       z-index: 6;
     }
 
-    /* Card Message Container */
+    /* Card Preview (Mini Card) */
     .card-container {
       position: absolute;
       top: -20px;
@@ -284,7 +284,7 @@
     }
 
     .card-container:hover {
-      transform: rotate(0deg) scale(1.05);
+      transform: rotate(0deg) scale(1.08);
     }
 
     .card {
@@ -301,16 +301,97 @@
       font-family: 'Georgia', serif;
       font-style: italic;
       color: #ad1457;
-      font-size: 14px;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.3;
     }
 
     .card .name-tag {
       font-weight: bold;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--pink-deep);
       display: block;
       margin-bottom: 4px;
+    }
+
+    .click-hint {
+      font-size: 10px;
+      color: #ff758c;
+      margin-top: 4px;
+      display: block;
+      font-weight: bold;
+    }
+
+    /* Modal Envelope / Full Message Window */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 15px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border: 2px solid #f8bbd0;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-card h2 {
+      font-family: 'Georgia', serif;
+      color: var(--pink-deep);
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .modal-card p {
+      font-family: 'Georgia', serif;
+      color: #4a4a4a;
+      font-size: 15px;
+      line-height: 1.7;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      background: var(--pink-deep);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+      background: var(--pink-dark);
     }
 
     /* UI Controls Panel */
@@ -375,10 +456,10 @@
   <!-- Main Bouquet Container -->
   <div class="bouquet-wrapper" id="bouquet">
     
-    <!-- Interactive Note Card Dedicated to Jireh -->
-    <div class="card-container" id="card" onclick="changeNote()">
+    <!-- Mini Note Card sa gilid ng Flower -->
+    <div class="card-container" id="card" onclick="openModal()">
       <div class="card">
-        <p id="card-text"><span class="name-tag">For Jireh only 💖</span>Just for you! 🌸<br>Have a wonderful day!</p>
+        <p><span class="name-tag">For Jajai 🎉</span>Happy 17th Birthday!<br><span class="click-hint">✉️ (I-click para mabasa)</span></p>
       </div>
     </div>
 
@@ -404,7 +485,18 @@
     </div>
   </div>
 
-  <!-- Interactive Controls (English) -->
+  <!-- Modal / Full Message Window kapag p-inindot ang Card -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <h2>Happy 17th Birthday Jajai! 🎂✨</h2>
+      <p id="full-message">Happy 17th Birthday Jajai, maging masaya ka lang lagi, isipin mo lagi sarili mo bago mo isipin yung ibang tao. wag ka panghihinaan ng loob everytime na may problem ka, bigay mo kay Lord yung mga problema mo na di mo kaya ng mag isa lang. mag aral ka ng mabuti and tuparin mo yung mga pangarap mo alam kong kaya mo yan wag kang hihinto sa pag seserve kay God.
+
+thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
+      <button class="close-btn" onclick="closeModal()">Isara 💌</button>
+    </div>
+  </div>
+
+  <!-- Interactive Controls -->
   <div class="controls">
     <button class="btn" onclick="addFlower('rose')">🌹 Add Rose</button>
     <button class="btn" onclick="addFlower('tulip')">🌷 Add Tulip</button>
@@ -486,25 +578,19 @@
     }
     animatePetals();
 
-    // --- Dedicated English Messages for Jireh ---
+    // --- Modal Functions ---
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    // --- Flower Generation ---
     const flowersContainer = document.getElementById('flowers');
     const stemsContainer = document.getElementById('stems');
 
-    const notes = [
-      "<span class='name-tag'>For Jireh only 💖</span>Just for you! 🌸<br>Have a wonderful day!",
-      "<span class='name-tag'>For Jireh only 💖</span>You are blooming<br>beautifully today! 💕",
-      "<span class='name-tag'>For Jireh only 💖</span>A lovely bouquet<br>for a lovely person! ✨",
-      "<span class='name-tag'>For Jireh only 💖</span>Keep smiling, Jireh!<br>You look amazing! 🌷",
-      "<span class='name-tag'>For Jireh only 💖</span>Sending you love<br>and fresh flowers! 🌹"
-    ];
-    let noteIndex = 0;
-
-    function changeNote() {
-      noteIndex = (noteIndex + 1) % notes.length;
-      document.getElementById('card-text').innerHTML = notes[noteIndex];
-    }
-
-    // Default Flower Positions & Types
     const initialFlowers = [
       { type: 'rose', x: 140, y: 120, scale: 1.1 },
       { type: 'rose', x: 80, y: 150, scale: 0.95 },
