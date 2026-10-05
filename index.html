@@ -36,6 +36,82 @@
       position: relative;
     }
 
+    /* Floating Music Control Button */
+    .music-player-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .music-player {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 2px solid var(--pink-soft);
+      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .music-player:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 117, 140, 0.35);
+      background: #ffffff;
+    }
+
+    .music-icon {
+      font-size: 18px;
+      animation: pulse 2s infinite;
+    }
+
+    .music-btn-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--pink-dark);
+    }
+
+    /* Lyrics Display Container */
+    .lyrics-box {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid var(--pink-soft);
+      padding: 10px 14px;
+      border-radius: 12px;
+      max-width: 280px;
+      text-align: right;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 12px;
+      color: #ad1457;
+      font-style: italic;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .lyrics-title {
+      font-weight: bold;
+      font-style: normal;
+      color: var(--pink-deep);
+      margin-bottom: 3px;
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
     /* Background Floating Petals Canvas */
     #petal-canvas {
       position: absolute;
@@ -164,13 +240,6 @@
       transform-origin: bottom center;
     }
 
-    .leaf {
-      position: absolute;
-      background: var(--stem-color);
-      border-radius: 0% 100% 0% 100%;
-      transform-origin: bottom left;
-    }
-
     /* Flower Styles */
     .flower {
       position: absolute;
@@ -294,7 +363,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       border: 1px solid #f8bbd0;
       text-align: center;
-      max-width: 180px;
+      max-width: 200px;
     }
 
     .card p {
@@ -314,11 +383,12 @@
     }
 
     .click-hint {
-      font-size: 10px;
+      font-size: 11px;
       color: #ff758c;
-      margin-top: 4px;
+      margin-top: 5px;
       display: block;
       font-weight: bold;
+      font-style: normal;
     }
 
     /* Modal Envelope / Full Message Window */
@@ -424,56 +494,41 @@
       transform: translateY(-2deg);
       box-shadow: 0 4px 12px rgba(255, 75, 110, 0.3);
     }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    /* Sparkle Effects */
-    .sparkle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #fff;
-      box-shadow: 0 0 10px #fff, 0 0 20px var(--pink-soft);
-      pointer-events: none;
-      animation: sparkleFade 1s linear forwards;
-      z-index: 20;
-    }
-
-    @keyframes sparkleFade {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(1.5); opacity: 0; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Floating Petals Canvas -->
+  <!-- Audio file (Replace legohouse.mp3 with your actual file name) -->
+  <audio id="bg-music" loop src="legohouse.mp3"></audio>
+
+  <!-- Music & Dynamic Lyrics Box -->
+  <div class="music-player-container">
+    <div class="music-player" onclick="toggleMusic()">
+      <span class="music-icon" id="music-icon">🎵</span>
+      <span class="music-btn-text" id="music-text">Lego House 🎶</span>
+    </div>
+
+    <div class="lyrics-box" id="lyrics-box">
+      <span class="lyrics-title">Lego House — Ed Sheeran</span>
+      <p id="lyric-line">"I'm out of touch, I'm out of love..."</p>
+    </div>
+  </div>
+
   <canvas id="petal-canvas"></canvas>
 
-  <!-- Main Bouquet Container -->
   <div class="bouquet-wrapper" id="bouquet">
-    
-    <!-- Mini Note Card sa gilid ng Flower -->
     <div class="card-container" id="card" onclick="openModal()">
       <div class="card">
-        <p><span class="name-tag">For Jajai 🎉</span>Happy 17th Birthday!<br><span class="click-hint">✉️ (Click mo jai message ni erick cute to)</span></p>
+        <p><span class="name-tag">For Jajai 🎉</span>Happy 17th Birthday!<br><span class="click-hint">✉️ Click mo jai message ni erick cute to</span></p>
       </div>
     </div>
 
-    <!-- Flower Stems -->
     <div class="stems-container" id="stems"></div>
-
-    <!-- Flower Flowers -->
     <div class="flowers-container" id="flowers"></div>
 
-    <!-- Wrapping Paper Layers -->
     <div class="paper-back"></div>
     <div class="paper-front"></div>
 
-    <!-- Ribbon -->
     <div class="ribbon" id="ribbon">
       <div class="ribbon-bow-left"></div>
       <div class="ribbon-bow-right"></div>
@@ -485,7 +540,6 @@
     </div>
   </div>
 
-  <!-- Modal / Full Message Window kapag p-inindot ang Card -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-card">
       <h2>Happy 17th Birthday Jajai! 🎂✨</h2>
@@ -496,7 +550,6 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     </div>
   </div>
 
-  <!-- Interactive Controls -->
   <div class="controls">
     <button class="btn" onclick="addFlower('rose')">🌹 Add Rose</button>
     <button class="btn" onclick="addFlower('tulip')">🌷 Add Tulip</button>
@@ -506,14 +559,61 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
   </div>
 
   <script>
-    // --- Canvas Floating Petals Animation ---
+    const music = document.getElementById('bg-music');
+    const musicIcon = document.getElementById('music-icon');
+    const musicText = document.getElementById('music-text');
+    const lyricsBox = document.getElementById('lyrics-box');
+    const lyricLine = document.getElementById('lyric-line');
+    let isPlaying = false;
+
+    // User-provided lyrics rotating array
+    const userLyrics = [
+      `"I'm out of touch, I'm out of love..."`,
+      `"I'll pick you up when you're gettin' down..."`,
+      `"And out of all these things I've done..."`,
+      `"I think I love you better now..."`,
+      `"I'm out of sight, I'm out of mind..."`,
+      `"I'll do it all for you in time..."`,
+      `"And out of all these things I've done..."`,
+      `"I think I love you better now..."`
+    ];
+
+    let lyricIndex = 0;
+    let lyricInterval;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicIcon.textContent = '🎵';
+        musicText.textContent = 'Play Lego House';
+        lyricsBox.style.display = 'none';
+        clearInterval(lyricInterval);
+        isPlaying = false;
+      } else {
+        music.play();
+        musicIcon.textContent = '🎶';
+        musicText.textContent = 'Playing...';
+        lyricsBox.style.display = 'block';
+        startLyricsDisplay();
+        isPlaying = true;
+      }
+    }
+
+    function startLyricsDisplay() {
+      lyricLine.textContent = userLyrics[0];
+      lyricIndex = 0;
+      clearInterval(lyricInterval);
+      
+      lyricInterval = setInterval(() => {
+        lyricIndex = (lyricIndex + 1) % userLyrics.length;
+        lyricLine.textContent = userLyrics[lyricIndex];
+      }, 4000); // Nagpapalit ng linya kada 4 na segundo
+    }
+
+    // --- Petals Canvas Animation ---
     const canvas = document.getElementById('petal-canvas');
     const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
@@ -521,10 +621,7 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     const petalColors = ['#ffb7c5', '#ff758c', '#ff4b6e', '#f8bbd0'];
 
     class Petal {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = -20;
@@ -536,58 +633,38 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
         this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
         this.opacity = Math.random() * 0.7 + 0.3;
       }
-
       update() {
         this.y += this.speedY;
         this.x += Math.sin(this.y * 0.01) + this.speedX;
         this.angle += this.spin;
-
-        if (this.y > canvas.height + 20) {
-          this.reset();
-        }
+        if (this.y > canvas.height + 20) this.reset();
       }
-
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate((this.angle * Math.PI) / 180);
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
-
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.bezierCurveTo(-this.size, -this.size, -this.size, this.size, 0, this.size * 1.5);
         ctx.bezierCurveTo(this.size, this.size, this.size, -this.size, 0, 0);
         ctx.fill();
-
         ctx.restore();
       }
     }
 
-    for (let i = 0; i < 35; i++) {
-      petals.push(new Petal());
-    }
-
+    for (let i = 0; i < 35; i++) petals.push(new Petal());
     function animatePetals() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      petals.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      petals.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animatePetals);
     }
     animatePetals();
 
-    // --- Modal Functions ---
-    function openModal() {
-      document.getElementById('modal-overlay').classList.add('active');
-    }
+    function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
 
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('active');
-    }
-
-    // --- Flower Generation ---
     const flowersContainer = document.getElementById('flowers');
     const stemsContainer = document.getElementById('stems');
 
@@ -609,31 +686,16 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       stem.style.height = `${startY}px`;
       stem.style.width = '6px';
       stem.style.transform = `rotate(${angle}deg)`;
-
-      if (Math.random() > 0.4) {
-        const leaf = document.createElement('div');
-        leaf.className = 'leaf';
-        leaf.style.width = '20px';
-        leaf.style.height = '10px';
-        leaf.style.bottom = `${Math.random() * 80 + 40}px`;
-        leaf.style.left = Math.random() > 0.5 ? '4px' : '-18px';
-        leaf.style.transform = Math.random() > 0.5 ? 'rotate(-30deg)' : 'rotate(30deg) scaleX(-1)';
-        stem.appendChild(leaf);
-      }
-
       stemsContainer.appendChild(stem);
     }
 
     function createRoseElement() {
       const rose = document.createElement('div');
       rose.className = 'flower rose';
-
       const center = document.createElement('div');
       center.className = 'center';
       rose.appendChild(center);
-
-      const numPetals = 8;
-      for (let i = 0; i < numPetals; i++) {
+      for (let i = 0; i < 8; i++) {
         const petal = document.createElement('div');
         petal.className = 'petal';
         const size = 30 + (i * 3);
@@ -641,69 +703,39 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
         petal.style.height = `${size}px`;
         petal.style.top = `${35 - size / 2}px`;
         petal.style.left = `${35 - size / 2}px`;
-        petal.style.transform = `rotate(${i * (360 / numPetals)}deg) translateY(-${i * 1.5}px)`;
+        petal.style.transform = `rotate(${i * 45}deg) translateY(-${i * 1.5}px)`;
         rose.appendChild(petal);
       }
-
       return rose;
     }
 
     function createTulipElement() {
       const tulip = document.createElement('div');
       tulip.className = 'flower tulip';
-
-      const pCenter = document.createElement('div');
-      pCenter.className = 'tulip-petal center';
-      const pLeft = document.createElement('div');
-      pLeft.className = 'tulip-petal left';
-      const pRight = document.createElement('div');
-      pRight.className = 'tulip-petal right';
-
-      tulip.appendChild(pCenter);
-      tulip.appendChild(pLeft);
-      tulip.appendChild(pRight);
-
+      tulip.innerHTML = '<div class="tulip-petal center"></div><div class="tulip-petal left"></div><div class="tulip-petal right"></div>';
       return tulip;
     }
 
     function createBlossomElement() {
       const blossom = document.createElement('div');
       blossom.className = 'flower blossom';
-
-      const center = document.createElement('div');
-      center.className = 'blossom-center';
-      blossom.appendChild(center);
-
+      blossom.innerHTML = '<div class="blossom-center"></div>';
       for (let i = 0; i < 5; i++) {
         const petal = document.createElement('div');
         petal.className = 'blossom-petal';
         petal.style.transform = `rotate(${i * 72}deg)`;
         blossom.appendChild(petal);
       }
-
       return blossom;
     }
 
     function renderFlower(type, x, y, scale = 1) {
-      let flowerEl;
-      if (type === 'rose') flowerEl = createRoseElement();
-      else if (type === 'tulip') flowerEl = createTulipElement();
-      else flowerEl = createBlossomElement();
-
+      let flowerEl = type === 'rose' ? createRoseElement() : type === 'tulip' ? createTulipElement() : createBlossomElement();
       flowerEl.style.left = `${x}px`;
       flowerEl.style.top = `${y}px`;
       flowerEl.style.transform = `scale(${scale})`;
-
-      flowerEl.addEventListener('click', (e) => {
-        createSparkles(e.clientX, e.clientY);
-      });
-
       flowersContainer.appendChild(flowerEl);
-
-      const stemStartX = x + 25;
-      const stemHeight = 220 - y;
-      const angle = (x - 150) * 0.15;
-      createStem(stemStartX, stemHeight, angle);
+      createStem(x + 25, 220 - y, (x - 150) * 0.15);
     }
 
     function initBouquet() {
@@ -713,38 +745,16 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     }
 
     function addFlower(type) {
-      const x = Math.floor(Math.random() * 200) + 50;
-      const y = Math.floor(Math.random() * 120) + 30;
-      const scale = 0.85 + Math.random() * 0.3;
-      renderFlower(type, x, y, scale);
+      renderFlower(type, Math.floor(Math.random() * 200) + 50, Math.floor(Math.random() * 120) + 30, 0.85 + Math.random() * 0.3);
     }
 
-    function resetBouquet() {
-      initBouquet();
-    }
+    function resetBouquet() { initBouquet(); }
 
-    // Ribbon Color Switcher
     const ribbonColors = ['#ff4081', '#e91e63', '#ab47bc', '#ff80ab', '#d81b60'];
     let colorIndex = 0;
-
     function changeRibbonColor() {
       colorIndex = (colorIndex + 1) % ribbonColors.length;
       document.documentElement.style.setProperty('--ribbon-color', ribbonColors[colorIndex]);
-    }
-
-    // Sparkle Effect
-    function createSparkles(x, y) {
-      for (let i = 0; i < 8; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = `${x + (Math.random() * 40 - 20)}px`;
-        sparkle.style.top = `${y + (Math.random() * 40 - 20)}px`;
-        document.body.appendChild(sparkle);
-
-        setTimeout(() => {
-          sparkle.remove();
-        }, 1000);
-      }
     }
 
     initBouquet();
