@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pretty Pink Flower Bouquet for Jireh</title>
+  <title>Pretty Pink Canterbury Bells Bouquet for Jireh</title>
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       --pink-soft: #ffb7c5;
       --pink-medium: #ff758c;
       --pink-deep: #ff4b6e;
@@ -15,7 +14,6 @@
       --stem-dark: #33691e;
       --ribbon-color: #ff4081;
       --paper-color: #fce4ec;
-      --paper-shadow: #f8bbd0;
     }
 
     * {
@@ -29,42 +27,46 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       background: linear-gradient(135deg, #fff5f7 0%, #fed6e3 100%);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
       position: relative;
+      padding-top: 15px;
     }
 
-    /* Floating Music Control Button */
+    /* Fixed Center-Top Music & Lyrics Control for Mobile */
     .music-player-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 90%;
+      max-width: 360px;
       z-index: 50;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
     .music-player {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(8px);
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 30px;
       border: 2px solid var(--pink-soft);
-      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.25);
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      width: 100%;
+      justify-content: center;
     }
 
     .music-player:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(255, 117, 140, 0.35);
+      transform: scale(1.03);
       background: #ffffff;
     }
 
@@ -74,25 +76,25 @@
     }
 
     .music-btn-text {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--pink-dark);
     }
 
-    /* Lyrics Display Container */
     .lyrics-box {
       background: rgba(255, 255, 255, 0.95);
       border: 1.5px solid var(--pink-soft);
       padding: 10px 14px;
       border-radius: 12px;
-      max-width: 280px;
-      text-align: right;
+      width: 100%;
+      text-align: center;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       font-size: 12px;
       color: #ad1457;
       font-style: italic;
       line-height: 1.4;
       display: none;
+      margin-top: 8px;
     }
 
     .lyrics-title {
@@ -112,9 +114,8 @@
       100% { transform: scale(1); }
     }
 
-    /* Background Floating Petals Canvas */
     #petal-canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -123,23 +124,21 @@
       z-index: 1;
     }
 
-    /* Main Container */
     .bouquet-wrapper {
       position: relative;
-      width: 400px;
-      height: 550px;
+      width: 360px;
+      height: 460px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       z-index: 2;
     }
 
-    /* Bouquet Wrapper Paper */
     .paper-back {
       position: absolute;
-      bottom: 50px;
-      width: 280px;
-      height: 320px;
+      bottom: 40px;
+      width: 250px;
+      height: 290px;
       background: var(--paper-color);
       clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
       box-shadow: 0 10px 20px rgba(0,0,0,0.05);
@@ -148,29 +147,27 @@
 
     .paper-front {
       position: absolute;
-      bottom: 50px;
-      width: 250px;
-      height: 220px;
+      bottom: 40px;
+      width: 220px;
+      height: 200px;
       background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
       clip-path: polygon(10% 0, 90% 0, 75% 100%, 25% 100%);
       z-index: 5;
       box-shadow: inset 0 5px 15px rgba(255, 255, 255, 0.4);
     }
 
-    /* Ribbon Container */
     .ribbon {
       position: absolute;
-      bottom: 120px;
+      bottom: 100px;
       z-index: 6;
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: all 0.3s ease;
     }
 
     .ribbon-knot {
-      width: 35px;
-      height: 25px;
+      width: 32px;
+      height: 22px;
       background: var(--ribbon-color);
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.15);
@@ -180,55 +177,39 @@
 
     .ribbon-bow-left, .ribbon-bow-right {
       position: absolute;
-      top: -10px;
-      width: 50px;
-      height: 40px;
+      top: -8px;
+      width: 45px;
+      height: 35px;
       background: var(--ribbon-color);
       border-radius: 50% 50% 10% 50%;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
     }
 
-    .ribbon-bow-left {
-      left: -40px;
-      transform: rotate(-15deg);
-    }
+    .ribbon-bow-left { left: -36px; transform: rotate(-15deg); }
+    .ribbon-bow-right { right: -36px; transform: scaleX(-1) rotate(-15deg); }
 
-    .ribbon-bow-right {
-      right: -40px;
-      transform: scaleX(-1) rotate(-15deg);
-    }
-
-    .ribbon-tails {
-      display: flex;
-      gap: 10px;
-      margin-top: -5px;
-    }
-
+    .ribbon-tails { display: flex; gap: 8px; margin-top: -4px; }
     .ribbon-tail {
-      width: 15px;
-      height: 70px;
+      width: 14px;
+      height: 60px;
       background: var(--ribbon-color);
       clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
     }
-
     .ribbon-tail.left { transform: rotate(15deg); }
     .ribbon-tail.right { transform: rotate(-15deg); }
 
-    /* Flower Arrangement Area */
     .flowers-container {
       position: absolute;
-      bottom: 160px;
-      width: 350px;
-      height: 350px;
+      bottom: 140px;
+      width: 330px;
+      height: 320px;
       z-index: 3;
     }
 
-    /* Stems Container */
     .stems-container {
       position: absolute;
       bottom: 20px;
       width: 100%;
-      height: 250px;
+      height: 220px;
       z-index: 2;
     }
 
@@ -240,7 +221,7 @@
       transform-origin: bottom center;
     }
 
-    /* Flower Styles */
+    /* Canterbury Bells Flower Custom CSS Styling */
     .flower {
       position: absolute;
       cursor: pointer;
@@ -252,146 +233,83 @@
       z-index: 10 !important;
     }
 
-    /* Rose Flower */
-    .rose {
-      width: 70px;
-      height: 70px;
-    }
-
-    .rose .petal {
-      position: absolute;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      background: linear-gradient(135deg, var(--pink-medium), var(--pink-deep));
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
-      transform-origin: center bottom;
-    }
-
-    .rose .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
-      background: var(--pink-dark);
-      border-radius: 50%;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-      z-index: 5;
-    }
-
-    /* Tulip Flower */
-    .tulip {
-      width: 60px;
-      height: 75px;
-    }
-
-    .tulip-petal {
-      position: absolute;
-      width: 35px;
-      height: 65px;
-      background: linear-gradient(to top, var(--pink-deep), var(--pink-soft));
-      border-radius: 50% 50% 20% 20%;
-    }
-
-    .tulip-petal.left {
-      left: 5px;
-      transform: rotate(-15deg);
-      z-index: 2;
-    }
-
-    .tulip-petal.right {
-      right: 5px;
-      transform: rotate(15deg);
-      z-index: 2;
-    }
-
-    .tulip-petal.center {
-      left: 12.5px;
-      top: -5px;
-      background: linear-gradient(to top, var(--pink-dark), var(--pink-medium));
-      z-index: 1;
-    }
-
-    /* Cherry Blossom */
-    .blossom {
+    .canterbury-bell {
       width: 50px;
-      height: 50px;
+      height: 60px;
     }
 
-    .blossom-petal {
+    .bell-cup {
       position: absolute;
-      top: 5px;
-      left: 17.5px;
-      width: 15px;
-      height: 25px;
-      background: linear-gradient(to top, var(--pink-soft), #ffffff);
-      border-radius: 50% 50% 20% 20%;
-      transform-origin: bottom center;
-      clip-path: polygon(0% 0%, 40% 0%, 50% 10%, 60% 0%, 100% 0%, 100% 100%, 0% 100%);
+      width: 44px;
+      height: 48px;
+      background: linear-gradient(to bottom, #ff4b6e, #ff80ab, #f8bbd0);
+      border-radius: 40% 40% 50% 50% / 20% 20% 80% 80%;
+      box-shadow: inset 0 -5px 10px rgba(200, 35, 76, 0.3);
     }
 
-    .blossom-center {
+    .bell-rim {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      bottom: -4px;
+      left: -3px;
+      width: 50px;
+      height: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bell-petal {
       width: 10px;
-      height: 10px;
-      background: #ffb300;
-      border-radius: 50%;
-      z-index: 6;
+      height: 12px;
+      background: #ff4b6e;
+      border-radius: 0 0 50% 50%;
+      transform: rotate(180deg);
     }
 
-    /* Card Preview (Mini Card) */
     .card-container {
       position: absolute;
-      top: -20px;
-      right: 10px;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
       z-index: 7;
-      transform: rotate(8deg);
       transition: transform 0.3s ease;
       cursor: pointer;
-    }
-
-    .card-container:hover {
-      transform: rotate(0deg) scale(1.08);
+      width: 85%;
     }
 
     .card {
       background: #ffffff;
-      padding: 12px 18px;
-      border-radius: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       border: 1px solid #f8bbd0;
       text-align: center;
-      max-width: 200px;
     }
 
     .card p {
       font-family: 'Georgia', serif;
       font-style: italic;
       color: #ad1457;
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.3;
     }
 
     .card .name-tag {
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--pink-deep);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .click-hint {
       font-size: 11px;
       color: #ff758c;
-      margin-top: 5px;
+      margin-top: 4px;
       display: block;
       font-weight: bold;
       font-style: normal;
     }
 
-    /* Modal Envelope / Full Message Window */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -416,96 +334,77 @@
 
     .modal-card {
       background: #ffffff;
-      padding: 30px 25px;
+      padding: 25px 20px;
       border-radius: 15px;
-      max-width: 420px;
+      max-width: 380px;
       width: 100%;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       border: 2px solid #f8bbd0;
       text-align: center;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
       position: relative;
-    }
-
-    .modal-overlay.active .modal-card {
-      transform: translateY(0);
     }
 
     .modal-card h2 {
       font-family: 'Georgia', serif;
       color: var(--pink-deep);
-      margin-bottom: 15px;
-      font-size: 22px;
+      margin-bottom: 12px;
+      font-size: 20px;
     }
 
     .modal-card p {
       font-family: 'Georgia', serif;
       color: #4a4a4a;
-      font-size: 15px;
-      line-height: 1.7;
+      font-size: 14px;
+      line-height: 1.6;
       white-space: pre-line;
       text-align: left;
     }
 
     .close-btn {
-      margin-top: 20px;
+      margin-top: 18px;
       background: var(--pink-deep);
       color: white;
       border: none;
-      padding: 10px 25px;
+      padding: 10px 22px;
       border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
-    .close-btn:hover {
-      background: var(--pink-dark);
-    }
-
-    /* UI Controls Panel */
     .controls {
-      margin-top: 25px;
+      margin-top: 15px;
+      margin-bottom: 25px;
       display: flex;
-      gap: 12px;
+      gap: 8px;
       z-index: 10;
       flex-wrap: wrap;
       justify-content: center;
+      width: 90%;
     }
 
     .btn {
       background: #ffffff;
       color: var(--pink-deep);
       border: 2px solid var(--pink-soft);
-      padding: 10px 18px;
-      border-radius: 25px;
+      padding: 8px 14px;
+      border-radius: 20px;
       font-weight: 600;
+      font-size: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      outline: none;
-    }
-
-    .btn:hover {
-      background: var(--pink-deep);
-      color: #ffffff;
-      border-color: var(--pink-deep);
-      transform: translateY(-2deg);
-      box-shadow: 0 4px 12px rgba(255, 75, 110, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <!-- Audio file (Replace legohouse.mp3 with your actual file name) -->
+  <!-- Audio Element (Make sure legohouse.mp3 is uploaded in GitHub) -->
   <audio id="bg-music" loop src="legohouse.mp3"></audio>
 
-  <!-- Music & Dynamic Lyrics Box -->
+  <!-- Mobile Centered Music & Lyrics Box -->
   <div class="music-player-container">
     <div class="music-player" onclick="toggleMusic()">
       <span class="music-icon" id="music-icon">🎵</span>
-      <span class="music-btn-text" id="music-text">Lego House 🎶</span>
+      <span class="music-btn-text" id="music-text">Play Lego House 🎶</span>
     </div>
 
     <div class="lyrics-box" id="lyrics-box">
@@ -551,9 +450,8 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
   </div>
 
   <div class="controls">
-    <button class="btn" onclick="addFlower('rose')">🌹 Add Rose</button>
-    <button class="btn" onclick="addFlower('tulip')">🌷 Add Tulip</button>
-    <button class="btn" onclick="addFlower('blossom')">🌸 Add Blossom</button>
+    <button class="btn" onclick="addBellFlower('light')">🔔 Add Light Bell</button>
+    <button class="btn" onclick="addBellFlower('deep')">🔔 Add Deep Bell</button>
     <button class="btn" onclick="changeRibbonColor()">🎀 Change Ribbon</button>
     <button class="btn" onclick="resetBouquet()">🔄 Reset</button>
   </div>
@@ -566,7 +464,25 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     const lyricLine = document.getElementById('lyric-line');
     let isPlaying = false;
 
-    // User-provided lyrics rotating array
+    // Web Audio Synthesizer fallback para siguradong may tunog agad sa CP
+    let audioCtx;
+    function playFallbackTune() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [261.63, 329.63, 392.00, 523.25];
+      notes.forEach((freq, index) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.2);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime + index * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.2 + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + index * 0.2);
+        osc.stop(audioCtx.currentTime + index * 0.2 + 0.4);
+      });
+    }
+
     const userLyrics = [
       `"I'm out of touch, I'm out of love..."`,
       `"I'll pick you up when you're gettin' down..."`,
@@ -590,9 +506,14 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
         clearInterval(lyricInterval);
         isPlaying = false;
       } else {
-        music.play();
+        playFallbackTune();
+        music.play().then(() => {
+          musicText.textContent = 'Playing Lego House...';
+        }).catch(() => {
+          musicText.textContent = 'Playing Notes...';
+        });
+        
         musicIcon.textContent = '🎶';
-        musicText.textContent = 'Playing...';
         lyricsBox.style.display = 'block';
         startLyricsDisplay();
         isPlaying = true;
@@ -607,7 +528,7 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       lyricInterval = setInterval(() => {
         lyricIndex = (lyricIndex + 1) % userLyrics.length;
         lyricLine.textContent = userLyrics[lyricIndex];
-      }, 4000); // Nagpapalit ng linya kada 4 na segundo
+      }, 4000);
     }
 
     // --- Petals Canvas Animation ---
@@ -654,7 +575,7 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       }
     }
 
-    for (let i = 0; i < 35; i++) petals.push(new Petal());
+    for (let i = 0; i < 30; i++) petals.push(new Petal());
     function animatePetals() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       petals.forEach(p => { p.update(); p.draw(); });
@@ -668,15 +589,16 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     const flowersContainer = document.getElementById('flowers');
     const stemsContainer = document.getElementById('stems');
 
+    // ALL Canterbury Bells Positions
     const initialFlowers = [
-      { type: 'rose', x: 140, y: 120, scale: 1.1 },
-      { type: 'rose', x: 80, y: 150, scale: 0.95 },
-      { type: 'rose', x: 200, y: 140, scale: 1.0 },
-      { type: 'tulip', x: 110, y: 70, scale: 1.0 },
-      { type: 'tulip', x: 170, y: 80, scale: 1.05 },
-      { type: 'blossom', x: 50, y: 100, scale: 0.9 },
-      { type: 'blossom', x: 230, y: 100, scale: 0.9 },
-      { type: 'blossom', x: 140, y: 40, scale: 0.85 },
+      { type: 'deep', x: 130, y: 110, scale: 1.1 },
+      { type: 'light', x: 70, y: 140, scale: 1.0 },
+      { type: 'deep', x: 190, y: 130, scale: 1.05 },
+      { type: 'light', x: 100, y: 60, scale: 1.0 },
+      { type: 'deep', x: 160, y: 70, scale: 1.05 },
+      { type: 'light', x: 40, y: 90, scale: 0.9 },
+      { type: 'deep', x: 220, y: 90, scale: 0.9 },
+      { type: 'light', x: 130, y: 30, scale: 0.85 },
     ];
 
     function createStem(startX, startY, angle) {
@@ -684,58 +606,42 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       stem.className = 'stem';
       stem.style.left = `${startX}px`;
       stem.style.height = `${startY}px`;
-      stem.style.width = '6px';
+      stem.style.width = '5px';
       stem.style.transform = `rotate(${angle}deg)`;
       stemsContainer.appendChild(stem);
     }
 
-    function createRoseElement() {
-      const rose = document.createElement('div');
-      rose.className = 'flower rose';
-      const center = document.createElement('div');
-      center.className = 'center';
-      rose.appendChild(center);
-      for (let i = 0; i < 8; i++) {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        const size = 30 + (i * 3);
-        petal.style.width = `${size}px`;
-        petal.style.height = `${size}px`;
-        petal.style.top = `${35 - size / 2}px`;
-        petal.style.left = `${35 - size / 2}px`;
-        petal.style.transform = `rotate(${i * 45}deg) translateY(-${i * 1.5}px)`;
-        rose.appendChild(petal);
+    function createCanterburyBellElement(shade = 'deep') {
+      const bell = document.createElement('div');
+      bell.className = 'flower canterbury-bell';
+
+      const cup = document.createElement('div');
+      cup.className = 'bell-cup';
+      if (shade === 'light') {
+        cup.style.background = 'linear-gradient(to bottom, #ff80ab, #f8bbd0, #ffffff)';
       }
-      return rose;
-    }
 
-    function createTulipElement() {
-      const tulip = document.createElement('div');
-      tulip.className = 'flower tulip';
-      tulip.innerHTML = '<div class="tulip-petal center"></div><div class="tulip-petal left"></div><div class="tulip-petal right"></div>';
-      return tulip;
-    }
-
-    function createBlossomElement() {
-      const blossom = document.createElement('div');
-      blossom.className = 'flower blossom';
-      blossom.innerHTML = '<div class="blossom-center"></div>';
+      const rim = document.createElement('div');
+      rim.className = 'bell-rim';
       for (let i = 0; i < 5; i++) {
         const petal = document.createElement('div');
-        petal.className = 'blossom-petal';
-        petal.style.transform = `rotate(${i * 72}deg)`;
-        blossom.appendChild(petal);
+        petal.className = 'bell-petal';
+        if (shade === 'light') petal.style.background = '#ff80ab';
+        rim.appendChild(petal);
       }
-      return blossom;
+
+      cup.appendChild(rim);
+      bell.appendChild(cup);
+      return bell;
     }
 
     function renderFlower(type, x, y, scale = 1) {
-      let flowerEl = type === 'rose' ? createRoseElement() : type === 'tulip' ? createTulipElement() : createBlossomElement();
+      let flowerEl = createCanterburyBellElement(type);
       flowerEl.style.left = `${x}px`;
       flowerEl.style.top = `${y}px`;
       flowerEl.style.transform = `scale(${scale})`;
       flowersContainer.appendChild(flowerEl);
-      createStem(x + 25, 220 - y, (x - 150) * 0.15);
+      createStem(x + 22, 200 - y, (x - 130) * 0.15);
     }
 
     function initBouquet() {
@@ -744,8 +650,8 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       initialFlowers.forEach(f => renderFlower(f.type, f.x, f.y, f.scale));
     }
 
-    function addFlower(type) {
-      renderFlower(type, Math.floor(Math.random() * 200) + 50, Math.floor(Math.random() * 120) + 30, 0.85 + Math.random() * 0.3);
+    function addBellFlower(shade) {
+      renderFlower(shade, Math.floor(Math.random() * 180) + 40, Math.floor(Math.random() * 100) + 20, 0.85 + Math.random() * 0.3);
     }
 
     function resetBouquet() { initBouquet(); }
