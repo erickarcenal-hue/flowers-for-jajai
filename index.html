@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pretty Pink Canterbury Bells Bouquet for Jireh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pretty Pink Flower Bouquet for Jireh</title>
   <style>
     :root {
+      --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       --pink-soft: #ffb7c5;
       --pink-medium: #ff758c;
       --pink-deep: #ff4b6e;
@@ -14,14 +15,13 @@
       --stem-dark: #33691e;
       --ribbon-color: #ff4081;
       --paper-color: #fce4ec;
+      --paper-shadow: #f8bbd0;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -29,101 +29,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       background: linear-gradient(135deg, #fff5f7 0%, #fed6e3 100%);
-      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
       position: relative;
-      padding-top: 15px;
-      padding-bottom: 20px;
     }
 
-    /* Fixed Center-Top Music & Lyrics Control for Mobile */
-    .music-player-container {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 90%;
-      max-width: 360px;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .music-player {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      padding: 12px 20px;
-      border-radius: 30px;
-      border: 2px solid var(--pink-soft);
-      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      width: 100%;
-      justify-content: center;
-    }
-
-    .music-player:active {
-      transform: scale(0.97);
-    }
-
-    .music-icon {
-      font-size: 20px;
-      display: inline-block;
-    }
-
-    .music-icon.playing {
-      animation: pulse 1.2s infinite ease-in-out;
-    }
-
-    .music-btn-text {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--pink-dark);
-      letter-spacing: 0.3px;
-    }
-
-    .lyrics-box {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1.5px solid var(--pink-soft);
-      padding: 12px 16px;
-      border-radius: 16px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 6px 18px rgba(255, 117, 140, 0.15);
-      font-size: 13px;
-      color: #ad1457;
-      font-style: italic;
-      line-height: 1.4;
-      display: none;
-      margin-top: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .lyrics-title {
-      font-weight: 800;
-      font-style: normal;
-      color: var(--pink-deep);
-      margin-bottom: 4px;
-      display: block;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.25) rotate(5deg); }
-      100% { transform: scale(1); }
-    }
-
+    /* Background Floating Petals Canvas */
     #petal-canvas {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -132,21 +47,23 @@
       z-index: 1;
     }
 
+    /* Main Container */
     .bouquet-wrapper {
       position: relative;
-      width: 360px;
-      height: 460px;
+      width: 400px;
+      height: 550px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       z-index: 2;
     }
 
+    /* Bouquet Wrapper Paper */
     .paper-back {
       position: absolute;
-      bottom: 40px;
-      width: 250px;
-      height: 290px;
+      bottom: 50px;
+      width: 280px;
+      height: 320px;
       background: var(--paper-color);
       clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
       box-shadow: 0 10px 20px rgba(0,0,0,0.05);
@@ -155,72 +72,87 @@
 
     .paper-front {
       position: absolute;
-      bottom: 40px;
-      width: 220px;
-      height: 200px;
+      bottom: 50px;
+      width: 250px;
+      height: 220px;
       background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
       clip-path: polygon(10% 0, 90% 0, 75% 100%, 25% 100%);
       z-index: 5;
       box-shadow: inset 0 5px 15px rgba(255, 255, 255, 0.4);
     }
 
+    /* Ribbon Container */
     .ribbon {
       position: absolute;
-      bottom: 100px;
+      bottom: 120px;
       z-index: 6;
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: all 0.3s ease;
     }
 
     .ribbon-knot {
-      width: 32px;
-      height: 22px;
+      width: 35px;
+      height: 25px;
       background: var(--ribbon-color);
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.15);
       position: relative;
       z-index: 2;
-      transition: background 0.3s;
     }
 
     .ribbon-bow-left, .ribbon-bow-right {
       position: absolute;
-      top: -8px;
-      width: 45px;
-      height: 35px;
+      top: -10px;
+      width: 50px;
+      height: 40px;
       background: var(--ribbon-color);
       border-radius: 50% 50% 10% 50%;
-      transition: background 0.3s;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
     }
 
-    .ribbon-bow-left { left: -36px; transform: rotate(-15deg); }
-    .ribbon-bow-right { right: -36px; transform: scaleX(-1) rotate(-15deg); }
+    .ribbon-bow-left {
+      left: -40px;
+      transform: rotate(-15deg);
+    }
 
-    .ribbon-tails { display: flex; gap: 8px; margin-top: -4px; }
+    .ribbon-bow-right {
+      right: -40px;
+      transform: scaleX(-1) rotate(-15deg);
+    }
+
+    .ribbon-tails {
+      display: flex;
+      gap: 10px;
+      margin-top: -5px;
+    }
+
     .ribbon-tail {
-      width: 14px;
-      height: 60px;
+      width: 15px;
+      height: 70px;
       background: var(--ribbon-color);
       clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
-      transition: background 0.3s;
     }
+
     .ribbon-tail.left { transform: rotate(15deg); }
     .ribbon-tail.right { transform: rotate(-15deg); }
 
+    /* Flower Arrangement Area */
     .flowers-container {
       position: absolute;
-      bottom: 140px;
-      width: 330px;
-      height: 320px;
+      bottom: 160px;
+      width: 350px;
+      height: 350px;
       z-index: 3;
     }
 
+    /* Stems Container */
     .stems-container {
       position: absolute;
       bottom: 20px;
       width: 100%;
-      height: 220px;
+      height: 250px;
       z-index: 2;
     }
 
@@ -232,72 +164,137 @@
       transform-origin: bottom center;
     }
 
-    /* Canterbury Bells Flower Styling */
+    .leaf {
+      position: absolute;
+      background: var(--stem-color);
+      border-radius: 0% 100% 0% 100%;
+      transform-origin: bottom left;
+    }
+
+    /* Flower Styles */
     .flower {
       position: absolute;
       cursor: pointer;
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .flower:hover, .flower:active {
-      transform: scale(1.2) !important;
+    .flower:hover {
+      transform: scale(1.15) !important;
       z-index: 10 !important;
     }
 
-    .canterbury-bell {
-      width: 50px;
-      height: 60px;
+    /* Rose Flower */
+    .rose {
+      width: 70px;
+      height: 70px;
     }
 
-    .bell-cup {
+    .rose .petal {
       position: absolute;
-      width: 44px;
-      height: 48px;
-      background: linear-gradient(to bottom, #ff4b6e, #ff80ab, #f8bbd0);
-      border-radius: 40% 40% 50% 50% / 20% 20% 80% 80%;
-      box-shadow: inset 0 -5px 10px rgba(200, 35, 76, 0.3), 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      background: linear-gradient(135deg, var(--pink-medium), var(--pink-deep));
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
+      transform-origin: center bottom;
     }
 
-    .bell-rim {
+    .rose .center {
       position: absolute;
-      bottom: -4px;
-      left: -3px;
-      width: 50px;
-      height: 12px;
-      display: flex;
-      justify-content: space-between;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: var(--pink-dark);
+      border-radius: 50%;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+      z-index: 5;
     }
 
-    .bell-petal {
+    /* Tulip Flower */
+    .tulip {
+      width: 60px;
+      height: 75px;
+    }
+
+    .tulip-petal {
+      position: absolute;
+      width: 35px;
+      height: 65px;
+      background: linear-gradient(to top, var(--pink-deep), var(--pink-soft));
+      border-radius: 50% 50% 20% 20%;
+    }
+
+    .tulip-petal.left {
+      left: 5px;
+      transform: rotate(-15deg);
+      z-index: 2;
+    }
+
+    .tulip-petal.right {
+      right: 5px;
+      transform: rotate(15deg);
+      z-index: 2;
+    }
+
+    .tulip-petal.center {
+      left: 12.5px;
+      top: -5px;
+      background: linear-gradient(to top, var(--pink-dark), var(--pink-medium));
+      z-index: 1;
+    }
+
+    /* Cherry Blossom */
+    .blossom {
+      width: 50px;
+      height: 50px;
+    }
+
+    .blossom-petal {
+      position: absolute;
+      top: 5px;
+      left: 17.5px;
+      width: 15px;
+      height: 25px;
+      background: linear-gradient(to top, var(--pink-soft), #ffffff);
+      border-radius: 50% 50% 20% 20%;
+      transform-origin: bottom center;
+      clip-path: polygon(0% 0%, 40% 0%, 50% 10%, 60% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .blossom-center {
+      position: absolute;
+      top: 20px;
+      left: 20px;
       width: 10px;
-      height: 12px;
-      background: #ff4b6e;
-      border-radius: 0 0 50% 50%;
-      transform: rotate(180deg);
+      height: 10px;
+      background: #ffb300;
+      border-radius: 50%;
+      z-index: 6;
     }
 
+    /* Card Preview (Mini Card) */
     .card-container {
       position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-3deg);
+      top: -20px;
+      right: 10px;
       z-index: 7;
+      transform: rotate(8deg);
       transition: transform 0.3s ease;
       cursor: pointer;
-      width: 85%;
     }
 
     .card-container:hover {
-      transform: translateX(-50%) rotate(0deg) scale(1.03);
+      transform: rotate(0deg) scale(1.08);
     }
 
     .card {
       background: #ffffff;
-      padding: 12px 16px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(255, 117, 140, 0.2);
-      border: 1.5px solid #f8bbd0;
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: 1px solid #f8bbd0;
       text-align: center;
+      max-width: 200px;
     }
 
     .card p {
@@ -313,26 +310,26 @@
       font-size: 15px;
       color: var(--pink-deep);
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .click-hint {
       font-size: 11px;
       color: #ff758c;
-      margin-top: 4px;
+      margin-top: 5px;
       display: block;
       font-weight: bold;
       font-style: normal;
     }
 
+    /* Modal Envelope / Full Message Window */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -350,109 +347,134 @@
 
     .modal-card {
       background: #ffffff;
-      padding: 25px 22px;
-      border-radius: 20px;
-      max-width: 380px;
+      padding: 30px 25px;
+      border-radius: 15px;
+      max-width: 420px;
       width: 100%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       border: 2px solid #f8bbd0;
       text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
       position: relative;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
     }
 
     .modal-card h2 {
       font-family: 'Georgia', serif;
       color: var(--pink-deep);
-      margin-bottom: 12px;
-      font-size: 20px;
+      margin-bottom: 15px;
+      font-size: 22px;
     }
 
     .modal-card p {
       font-family: 'Georgia', serif;
       color: #4a4a4a;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 15px;
+      line-height: 1.7;
       white-space: pre-line;
       text-align: left;
     }
 
     .close-btn {
-      margin-top: 18px;
-      background: linear-gradient(135deg, var(--pink-deep), var(--pink-medium));
+      margin-top: 20px;
+      background: var(--pink-deep);
       color: white;
       border: none;
-      padding: 10px 24px;
+      padding: 10px 25px;
       border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 75, 110, 0.3);
+      transition: background 0.2s;
     }
 
+    .close-btn:hover {
+      background: var(--pink-dark);
+    }
+
+    /* UI Controls Panel */
     .controls {
-      margin-top: 15px;
-      margin-bottom: 25px;
+      margin-top: 25px;
       display: flex;
-      gap: 8px;
+      gap: 12px;
       z-index: 10;
       flex-wrap: wrap;
       justify-content: center;
-      width: 90%;
-      max-width: 400px;
     }
 
     .btn {
       background: #ffffff;
       color: var(--pink-deep);
       border: 2px solid var(--pink-soft);
-      padding: 8px 14px;
-      border-radius: 20px;
+      padding: 10px 18px;
+      border-radius: 25px;
       font-weight: 600;
-      font-size: 12px;
       cursor: pointer;
+      transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: all 0.2s;
+      outline: none;
+    }
+
+    .btn:hover {
+      background: var(--pink-deep);
+      color: #ffffff;
+      border-color: var(--pink-deep);
+      transform: translateY(-2deg);
+      box-shadow: 0 4px 12px rgba(255, 75, 110, 0.3);
     }
 
     .btn:active {
-      transform: scale(0.95);
-      background: var(--pink-soft);
-      color: white;
+      transform: translateY(0);
+    }
+
+    /* Sparkle Effects */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #fff;
+      box-shadow: 0 0 10px #fff, 0 0 20px var(--pink-soft);
+      pointer-events: none;
+      animation: sparkleFade 1s linear forwards;
+      z-index: 20;
+    }
+
+    @keyframes sparkleFade {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Audio Element (Will attempt local/remote audio file first) -->
-  <audio id="bg-music" loop src="legohouse.mp3" preload="auto"></audio>
-
-  <!-- Mobile Centered Music & Lyrics Box -->
-  <div class="music-player-container">
-    <div class="music-player" id="music-btn" onclick="toggleMusic()">
-      <span class="music-icon" id="music-icon">🎵</span>
-      <span class="music-btn-text" id="music-text">Play Lego House 🎶</span>
-    </div>
-
-    <div class="lyrics-box" id="lyrics-box">
-      <span class="lyrics-title">Lego House — Ed Sheeran</span>
-      <p id="lyric-line">"I'm out of touch, I'm out of love..."</p>
-    </div>
-  </div>
-
+  <!-- Floating Petals Canvas -->
   <canvas id="petal-canvas"></canvas>
 
+  <!-- Main Bouquet Container -->
   <div class="bouquet-wrapper" id="bouquet">
+    
+    <!-- Mini Note Card sa gilid ng Flower -->
     <div class="card-container" id="card" onclick="openModal()">
       <div class="card">
         <p><span class="name-tag">For Jajai 🎉</span>Happy 17th Birthday!<br><span class="click-hint">✉️ Click mo jai message ni erick cute to</span></p>
       </div>
     </div>
 
+    <!-- Flower Stems -->
     <div class="stems-container" id="stems"></div>
+
+    <!-- Flower Flowers -->
     <div class="flowers-container" id="flowers"></div>
 
+    <!-- Wrapping Paper Layers -->
     <div class="paper-back"></div>
     <div class="paper-front"></div>
 
+    <!-- Ribbon -->
     <div class="ribbon" id="ribbon">
       <div class="ribbon-bow-left"></div>
       <div class="ribbon-bow-right"></div>
@@ -464,6 +486,7 @@
     </div>
   </div>
 
+  <!-- Modal / Full Message Window kapag p-inindot ang Card -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-card">
       <h2>Happy 17th Birthday Jajai! 🎂✨</h2>
@@ -474,153 +497,24 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     </div>
   </div>
 
+  <!-- Interactive Controls -->
   <div class="controls">
     <button class="btn" onclick="addBellFlower('light')">🔔 Add Light Bell</button>
-    <button class="btn" onclick="addBellFlower('deep')">🔔 Add Deep Bell</button>
+    <button class="btn" onclick="addFlower('tulip')">🌷 Add Tulip</button>
+    <button class="btn" onclick="addFlower('blossom')">🌸 Add Blossom</button>
     <button class="btn" onclick="changeRibbonColor()">🎀 Change Ribbon</button>
     <button class="btn" onclick="resetBouquet()">🔄 Reset</button>
   </div>
 
   <script>
-    const music = document.getElementById('bg-music');
-    const musicIcon = document.getElementById('music-icon');
-    const musicText = document.getElementById('music-text');
-    const lyricsBox = document.getElementById('lyrics-box');
-    const lyricLine = document.getElementById('lyric-line');
-    let isPlaying = false;
-
-    // Web Audio Synthesizer for "Lego House" Melody (Guaranteed sound fallback)
-    let audioCtx = null;
-    let synthInterval = null;
-
-    // Musical Notes for Lego House Melody (Fingers/Melody pattern)
-    const legoHouseNotes = [
-      { note: 293.66, duration: 0.25 }, // D4
-      { note: 369.99, duration: 0.25 }, // F#4
-      { note: 440.00, duration: 0.25 }, // A4
-      { note: 369.99, duration: 0.25 }, // F#4
-      { note: 293.66, duration: 0.25 }, // D4
-      { note: 369.99, duration: 0.25 }, // F#4
-      { note: 440.00, duration: 0.25 }, // A4
-      { note: 369.99, duration: 0.25 }, // F#4
-      { note: 246.94, duration: 0.25 }, // B3
-      { note: 293.66, duration: 0.25 }, // D4
-      { note: 369.99, duration: 0.25 }, // F#4
-      { note: 293.66, duration: 0.25 }, // D4
-      { note: 196.00, duration: 0.25 }, // G3
-      { note: 246.94, duration: 0.25 }, // B3
-      { note: 293.66, duration: 0.25 }, // D4
-      { note: 246.94, duration: 0.25 }  // B3
-    ];
-
-    let noteIndex = 0;
-
-    function startSynthMelody() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
-      noteIndex = 0;
-      clearInterval(synthInterval);
-
-      synthInterval = setInterval(() => {
-        if (!isPlaying) return;
-        const noteData = legoHouseNotes[noteIndex];
-        playTone(noteData.note, noteData.duration);
-        noteIndex = (noteIndex + 1) % legoHouseNotes.length;
-      }, 220);
-    }
-
-    function playTone(freq, duration) {
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle'; // Soft warm sound like acoustic guitar/bell
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start(audioCtx.currentTime);
-        osc.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        console.log('Audio synth error:', e);
-      }
-    }
-
-    function stopSynthMelody() {
-      if (synthInterval) clearInterval(synthInterval);
-    }
-
-    const userLyrics = [
-      `"I'm out of touch, I'm out of love..."`,
-      `"I'll pick you up when you're gettin' down..."`,
-      `"And out of all these things I've done..."`,
-      `"I think I love you better now..."`,
-      `"I'm out of sight, I'm out of mind..."`,
-      `"I'll do it all for you in time..."`,
-      `"And out of all these things I'done..."`,
-      `"I think I love you better now..."`
-    ];
-
-    let lyricIndex = 0;
-    let lyricInterval = null;
-
-    function toggleMusic() {
-      if (isPlaying) {
-        // Stop music
-        music.pause();
-        stopSynthMelody();
-        musicIcon.textContent = '🎵';
-        musicIcon.classList.remove('playing');
-        musicText.textContent = 'Play Lego House';
-        lyricsBox.style.display = 'none';
-        clearInterval(lyricInterval);
-        isPlaying = false;
-      } else {
-        isPlaying = true;
-        musicIcon.textContent = '🎶';
-        musicIcon.classList.add('playing');
-        lyricsBox.style.display = 'block';
-        startLyricsDisplay();
-
-        // Try playing HTML5 MP3 Audio first
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            musicText.textContent = 'Playing Lego House... 🎵';
-          }).catch(() => {
-            // Fallback to Web Audio Synthesizer if MP3 is missing/failed
-            musicText.textContent = 'Playing Lego House (Melody) 🎶';
-            startSynthMelody();
-          });
-        } else {
-          startSynthMelody();
-        }
-      }
-    }
-
-    function startLyricsDisplay() {
-      lyricLine.textContent = userLyrics[0];
-      lyricIndex = 0;
-      clearInterval(lyricInterval);
-      
-      lyricInterval = setInterval(() => {
-        lyricIndex = (lyricIndex + 1) % userLyrics.length;
-        lyricLine.textContent = userLyrics[lyricIndex];
-      }, 3500);
-    }
-
-    // --- Petals Canvas Animation ---
+    // --- Canvas Floating Petals Animation ---
     const canvas = document.getElementById('petal-canvas');
     const ctx = canvas.getContext('2d');
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
@@ -628,7 +522,10 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     const petalColors = ['#ffb7c5', '#ff758c', '#ff4b6e', '#f8bbd0'];
 
     class Petal {
-      constructor() { this.reset(); }
+      constructor() {
+        this.reset();
+      }
+
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = -20;
@@ -640,52 +537,70 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
         this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
         this.opacity = Math.random() * 0.7 + 0.3;
       }
+
       update() {
         this.y += this.speedY;
         this.x += Math.sin(this.y * 0.01) + this.speedX;
         this.angle += this.spin;
-        if (this.y > canvas.height + 20) this.reset();
+
+        if (this.y > canvas.height + 20) {
+          this.reset();
+        }
       }
+
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate((this.angle * Math.PI) / 180);
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
+
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.bezierCurveTo(-this.size, -this.size, -this.size, this.size, 0, this.size * 1.5);
         ctx.bezierCurveTo(this.size, this.size, this.size, -this.size, 0, 0);
         ctx.fill();
+
         ctx.restore();
       }
     }
 
-    for (let i = 0; i < 30; i++) petals.push(new Petal());
+    for (let i = 0; i < 35; i++) {
+      petals.push(new Petal());
+    }
+
     function animatePetals() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      petals.forEach(p => { p.update(); p.draw(); });
+      petals.forEach(p => {
+        p.update();
+        p.draw();
+      });
       requestAnimationFrame(animatePetals);
     }
     animatePetals();
 
-    function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
-    function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+    // --- Modal Functions ---
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('active');
+    }
 
-    // --- Canterbury Bells Bouquet Logic ---
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    // --- Flower Generation ---
     const flowersContainer = document.getElementById('flowers');
     const stemsContainer = document.getElementById('stems');
 
-    // ONLY Canterbury Bells Positions
     const initialFlowers = [
-      { type: 'deep', x: 130, y: 110, scale: 1.1 },
-      { type: 'light', x: 70, y: 140, scale: 1.0 },
-      { type: 'deep', x: 190, y: 130, scale: 1.05 },
-      { type: 'light', x: 100, y: 60, scale: 1.0 },
-      { type: 'deep', x: 160, y: 70, scale: 1.05 },
-      { type: 'light', x: 40, y: 90, scale: 0.9 },
-      { type: 'deep', x: 220, y: 90, scale: 0.9 },
-      { type: 'light', x: 130, y: 30, scale: 0.85 },
+      { type: 'rose', x: 140, y: 120, scale: 1.1 },
+      { type: 'rose', x: 80, y: 150, scale: 0.95 },
+      { type: 'rose', x: 200, y: 140, scale: 1.0 },
+      { type: 'tulip', x: 110, y: 70, scale: 1.0 },
+      { type: 'tulip', x: 170, y: 80, scale: 1.05 },
+      { type: 'blossom', x: 50, y: 100, scale: 0.9 },
+      { type: 'blossom', x: 230, y: 100, scale: 0.9 },
+      { type: 'blossom', x: 140, y: 40, scale: 0.85 },
     ];
 
     function createStem(startX, startY, angle) {
@@ -693,49 +608,103 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       stem.className = 'stem';
       stem.style.left = `${startX}px`;
       stem.style.height = `${startY}px`;
-      stem.style.width = '5px';
+      stem.style.width = '6px';
       stem.style.transform = `rotate(${angle}deg)`;
+
+      if (Math.random() > 0.4) {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        leaf.style.width = '20px';
+        leaf.style.height = '10px';
+        leaf.style.bottom = `${Math.random() * 80 + 40}px`;
+        leaf.style.left = Math.random() > 0.5 ? '4px' : '-18px';
+        leaf.style.transform = Math.random() > 0.5 ? 'rotate(-30deg)' : 'rotate(30deg) scaleX(-1)';
+        stem.appendChild(leaf);
+      }
+
       stemsContainer.appendChild(stem);
     }
 
-    function createCanterburyBellElement(shade = 'deep') {
-      const bell = document.createElement('div');
-      bell.className = 'flower canterbury-bell';
+    function createRoseElement() {
+      const rose = document.createElement('div');
+      rose.className = 'flower rose';
 
-      const cup = document.createElement('div');
-      cup.className = 'bell-cup';
-      if (shade === 'light') {
-        cup.style.background = 'linear-gradient(to bottom, #ff80ab, #f8bbd0, #ffffff)';
+      const center = document.createElement('div');
+      center.className = 'center';
+      rose.appendChild(center);
+
+      const numPetals = 8;
+      for (let i = 0; i < numPetals; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        const size = 30 + (i * 3);
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size}px`;
+        petal.style.top = `${35 - size / 2}px`;
+        petal.style.left = `${35 - size / 2}px`;
+        petal.style.transform = `rotate(${i * (360 / numPetals)}deg) translateY(-${i * 1.5}px)`;
+        rose.appendChild(petal);
       }
 
-      const rim = document.createElement('div');
-      rim.className = 'bell-rim';
+      return rose;
+    }
+
+    function createTulipElement() {
+      const tulip = document.createElement('div');
+      tulip.className = 'flower tulip';
+
+      const pCenter = document.createElement('div');
+      pCenter.className = 'tulip-petal center';
+      const pLeft = document.createElement('div');
+      pLeft.className = 'tulip-petal left';
+      const pRight = document.createElement('div');
+      pRight.className = 'tulip-petal right';
+
+      tulip.appendChild(pCenter);
+      tulip.appendChild(pLeft);
+      tulip.appendChild(pRight);
+
+      return tulip;
+    }
+
+    function createBlossomElement() {
+      const blossom = document.createElement('div');
+      blossom.className = 'flower blossom';
+
+      const center = document.createElement('div');
+      center.className = 'blossom-center';
+      blossom.appendChild(center);
+
       for (let i = 0; i < 5; i++) {
         const petal = document.createElement('div');
-        petal.className = 'bell-petal';
-        if (shade === 'light') petal.style.background = '#ff80ab';
-        rim.appendChild(petal);
+        petal.className = 'blossom-petal';
+        petal.style.transform = `rotate(${i * 72}deg)`;
+        blossom.appendChild(petal);
       }
 
-      cup.appendChild(rim);
-      bell.appendChild(cup);
-
-      // Play bell chime sound on click
-      bell.addEventListener('click', () => {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        playTone(523.25 + Math.random() * 300, 0.4);
-      });
-
-      return bell;
+      return blossom;
     }
 
     function renderFlower(type, x, y, scale = 1) {
-      let flowerEl = createCanterburyBellElement(type);
+      let flowerEl;
+      if (type === 'rose') flowerEl = createRoseElement();
+      else if (type === 'tulip') flowerEl = createTulipElement();
+      else flowerEl = createBlossomElement();
+
       flowerEl.style.left = `${x}px`;
       flowerEl.style.top = `${y}px`;
       flowerEl.style.transform = `scale(${scale})`;
+
+      flowerEl.addEventListener('click', (e) => {
+        createSparkles(e.clientX, e.clientY);
+      });
+
       flowersContainer.appendChild(flowerEl);
-      createStem(x + 22, 200 - y, (x - 130) * 0.15);
+
+      const stemStartX = x + 25;
+      const stemHeight = 220 - y;
+      const angle = (x - 150) * 0.15;
+      createStem(stemStartX, stemHeight, angle);
     }
 
     function initBouquet() {
@@ -744,20 +713,41 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
       initialFlowers.forEach(f => renderFlower(f.type, f.x, f.y, f.scale));
     }
 
-    function addBellFlower(shade) {
-      renderFlower(shade, Math.floor(Math.random() * 180) + 40, Math.floor(Math.random() * 100) + 20, 0.85 + Math.random() * 0.3);
+    function addFlower(type) {
+      const x = Math.floor(Math.random() * 200) + 50;
+      const y = Math.floor(Math.random() * 120) + 30;
+      const scale = 0.85 + Math.random() * 0.3;
+      renderFlower(type, x, y, scale);
     }
 
-    function resetBouquet() { initBouquet(); }
+    function resetBouquet() {
+      initBouquet();
+    }
 
+    // Ribbon Color Switcher
     const ribbonColors = ['#ff4081', '#e91e63', '#ab47bc', '#ff80ab', '#d81b60'];
     let colorIndex = 0;
+
     function changeRibbonColor() {
       colorIndex = (colorIndex + 1) % ribbonColors.length;
       document.documentElement.style.setProperty('--ribbon-color', ribbonColors[colorIndex]);
     }
 
-    // Initialize bouquet on page load
+    // Sparkle Effect
+    function createSparkles(x, y) {
+      for (let i = 0; i < 8; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${x + (Math.random() * 40 - 20)}px`;
+        sparkle.style.top = `${y + (Math.random() * 40 - 20)}px`;
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      }
+    }
+
     initBouquet();
   </script>
 </body>
