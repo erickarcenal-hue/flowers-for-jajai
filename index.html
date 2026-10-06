@@ -183,13 +183,13 @@
       z-index: 10 !important;
     }
 
-    /* light Flower */
-    .light {
+    /* Rose Flower */
+    .rose {
       width: 70px;
       height: 70px;
     }
 
-    .light .petal {
+    .rose .petal {
       position: absolute;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
       background: linear-gradient(135deg, var(--pink-medium), var(--pink-deep));
@@ -499,9 +499,9 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
 
   <!-- Interactive Controls -->
   <div class="controls">
-    <button class="btn" onclick="addBellFlower('light')">🔔 Add Light Bell</button>
-    <button class="btn" onclick="addFlower('tulip')">🌷 Add Tulip</button>
-    <button class="btn" onclick="addFlower('blossom')">🌸 Add Blossom</button>
+    <button class="btn" onclick="addFlower('rose')">🌹 Add Erick</button>
+    <button class="btn" onclick="addFlower('tulip')">🌷 Add Erick</button>
+    <button class="btn" onclick="addFlower('blossom')">🌸 Add Erick</button>
     <button class="btn" onclick="changeRibbonColor()">🎀 Change Ribbon</button>
     <button class="btn" onclick="resetBouquet()">🔄 Reset</button>
   </div>
@@ -593,9 +593,9 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
     const stemsContainer = document.getElementById('stems');
 
     const initialFlowers = [
-      { type: 'light', x: 140, y: 120, scale: 1.1 },
-      { type: 'light', x: 80, y: 150, scale: 0.95 },
-      { type: 'light', x: 200, y: 140, scale: 1.0 },
+      { type: 'rose', x: 140, y: 120, scale: 1.1 },
+      { type: 'rose', x: 80, y: 150, scale: 0.95 },
+      { type: 'rose', x: 200, y: 140, scale: 1.0 },
       { type: 'tulip', x: 110, y: 70, scale: 1.0 },
       { type: 'tulip', x: 170, y: 80, scale: 1.05 },
       { type: 'blossom', x: 50, y: 100, scale: 0.9 },
@@ -687,7 +687,7 @@ thanks sa bracelet mwehehehe, Happy Birthday Ulit Jajai 🎉💖</p>
 
     function renderFlower(type, x, y, scale = 1) {
       let flowerEl;
-      if (type === 'light') flowerEl = createRoseElement();
+      if (type === 'rose') flowerEl = createRoseElement();
       else if (type === 'tulip') flowerEl = createTulipElement();
       else flowerEl = createBlossomElement();
 
